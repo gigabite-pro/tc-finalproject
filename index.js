@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const authRoute = require('./routes/auth');
-const userRoute = require('./routes/user');
 require('dotenv').config();
 
 app.use(express.static(__dirname + '/public'));
@@ -17,8 +16,6 @@ mongoose.connect(process.env.DB_URI,{
 
 //Routes
 app.use('/auth', authRoute);
-app.use('/user', userRoute);
-
 
 app.get('/', (req, res)=>{
     res.render('hello');
