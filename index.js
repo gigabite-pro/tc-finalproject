@@ -1,11 +1,23 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const session = require('express-session');
 const authRoute = require('./routes/auth');
+const postRoute = require('./routes/posts');
 require('dotenv').config();
 
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
+app.use(
+    session({
+        secret : 'yoyohoneysingh',
+        cookie : {
+            maxAge : 60000 * 60 * 24
+        },
+        saveUninitialized : true,
+        resave : false
+    })
+)
 
 //db connection
 mongoose.connect(process.env.DB_URI,{ 
@@ -16,6 +28,7 @@ mongoose.connect(process.env.DB_URI,{
 
 //Routes
 app.use('/auth', authRoute);
+app.use('/posts', postRoute);
 
 app.get('/', (req, res)=>{
     res.render('hello');
