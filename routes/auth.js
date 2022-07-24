@@ -3,6 +3,7 @@ const axios = require('axios');
 const urlParse = require('url-parse');
 const qs = require('query-string');
 const Users = require('../models/Users');
+const {isAuthorized} = require('../config/authCheck');
 require('dotenv').config()
 
 const redirectUri = process.env.REDIRECT_URI
@@ -94,6 +95,45 @@ router.get('/callback', async (req, res)=>{
     })
     .catch(err => console.log(err))
 
+})
+
+router.get('/verify', isAuthorized, (req,res) => {
+    res.render('verify.ejs')
+})
+
+router.get('/checkUser', isAuthorized, (req,res) => {
+    const user = req.query.user
+
+    Users.findOne({username: user})
+    .then(doc => {
+        if(doc){
+            res.json({
+                data : true
+            })
+        }else{
+            res.json({
+                data : false
+            })
+        }
+    })
+    .catch(err => console.log(err))
+})
+
+router.post('/verifyuser', isAuthorized, (req,res)=>{
+    const username = req.body.username
+
+    Users.findOne({email: req.session.user.email})
+    .then(doc => {
+        doc.username = username
+        doc.isVerified = true
+        doc.save()
+        .then((resp)=>{
+            req.session.user = resp
+            res.redirect('/posts')
+        })
+        .catch(err => console.log(err))
+    })
+    .catch(err => console.log(err))
 })
 
 router.get('/logout', (req,res)=>{

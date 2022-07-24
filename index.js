@@ -19,6 +19,8 @@ app.use(
         resave : false
     })
 )
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 //db connection
 mongoose.connect(process.env.DB_URI,{ 
