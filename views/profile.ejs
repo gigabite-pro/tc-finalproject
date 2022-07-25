@@ -43,24 +43,26 @@
     <div class="profile">
         <div class="info-box">
             <div class="left">
-                <div class="pfp"></div>
+                <div class="pfp" style="background-image: url(<%=user.pfp%>);"></div>
                 <div class="username">
-                    chintuuu
+                    <strong>
+                        <%=user.username%>
+                    </strong>
                 </div>
             </div>
             <hr style="transform: rotate(90); margin: 0; padding: 0; color: black; background-color: black; width: 0.2w; opacity: 1; height: 100%;">
             <div class="right">
                 <span>
-                    <strong>Name: </strong><br>Vaibhav Sharma
+                    <strong>Name: </strong><br><%= user.name %>
                 </span>
                 <span>
-                    <strong>Email: </strong><br>vs301vs@gmail.com
+                    <strong>Email: </strong><br><%= user.email %>
                 </span>
                 <span>
-                    <strong>Posts: </strong><br>5
+                    <strong>Posts: </strong><br><%= user.posts.length %>
                 </span>
                 <span>
-                    <strong>Liked Posts: </strong><br>10
+                    <strong>Liked Posts: </strong><br><%= user.likedPosts.length %>
                 </span>
             </div>
         </div>
@@ -109,10 +111,9 @@
             </h1>
         </div>
         <div class="main-posts">
-            <div class="profile-post"></div>
-            <div class="profile-post"></div>
-            <div class="profile-post"></div>
-            <div class="profile-post"></div>
+            <%for(let i = user.posts.length-1; i > -1; i-- ){ %> 
+                <div class="profile-post" style="background-image: url('<%=user.posts[i]%>');"></div> 
+            <% } %>
         </div>
     </div>
 

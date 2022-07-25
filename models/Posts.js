@@ -9,7 +9,6 @@ const postSchema = new mongoose.Schema({
     },
     username : {
         type: String,
-        default: 'chintu'
     },
     userpfp: {
         type: String
@@ -19,7 +18,7 @@ const postSchema = new mongoose.Schema({
         default: 0,
     },
     date: {
-        type: String,
+        type: Date,
         default: new Date,
     },
 })

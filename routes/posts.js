@@ -5,7 +5,12 @@ const Users = require('../models/Users');
 
 
 router.get('/', isAuthorized, isVerified, (req, res) => {
-    res.send('You have been logged in')
+    Posts.find()
+    .then(posts => {
+        console.log(posts)
+        res.render('posts', {posts: posts});
+    })
+    .catch(err => console.log(err));
 })
 
 router.post('/newpost', isAuthorized, isVerified, (req,res)=>{

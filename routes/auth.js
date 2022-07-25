@@ -72,7 +72,6 @@ router.get('/callback', async (req, res)=>{
     .then((doc)=>{
         if(doc){
             //login
-            console.log('this is login block')
             req.session.user = doc
             res.redirect('/posts')
         }else{
@@ -86,7 +85,6 @@ router.get('/callback', async (req, res)=>{
 
             newUser.save()
             .then((resp)=>{
-                console.log('this is register block')
                 req.session.user = resp
                 res.redirect('/posts')
             })

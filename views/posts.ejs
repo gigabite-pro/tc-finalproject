@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <script src="https://kit.fontawesome.com/410f94a1ed.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css3?family=Lexend+Deca&display=swap" rel="stylesheet">
+    <title>Tulip Socials</title>
+</head>
+<body>
+    <nav>
+        <a href="/">
+            <div class="logo"></div>
+        </a>
+        <ul>
+            <a href="/posts">
+                <li>posts</li>
+            </a>
+            <a href="/notifs">
+                <li>
+                    notifs
+                </li>
+            </a>
+            <a href="/profile">
+                <li>profile</li>
+            </a>
+            <a href="/auth/logout" class="login">
+                <li>logout</li>
+            </a>
+        </ul>
+    </nav>
+
+    <div class="posts">
+        <% for( let i = posts.length -1; i > -1; i-- ) { %>
+            <div class="card"> 
+                <div class="upper">
+                    <div class="info">
+                        <div class="pfp" style="background-image: url('<%=posts[i].userpfp%>');">
+    
+                        </div>
+                        <div class="username">
+                            @<%=posts[i].username%>
+                        </div>
+                    </div>
+    
+                    <a href="" class="like">
+                        <span>
+                            <%=posts[i].likes%>
+                        </span>
+                        <i class="fa-regular fa-heart"></i>
+                    </a>
+                </div>
+                <hr style="height: 1px; width:100%; background-color: black; border:none; margin: 0; padding: 0;">
+                <div class="lower" style="background-image: url('<%=posts[i].file%>');"></div>
+                <hr style="height: 1px; width:100%; background-color: black; border:none; margin: 0; padding: 0;">
+                <div class="caption">
+                    <%=posts[i].caption%>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>

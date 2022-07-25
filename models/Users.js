@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
         type: Array,
     },
     date: {
-        type: String,
+        type: Date,
         default: new Date,
     },
 })
