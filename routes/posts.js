@@ -7,8 +7,11 @@ const Users = require('../models/Users');
 router.get('/', isAuthorized, isVerified, (req, res) => {
     Posts.find()
     .then(posts => {
-        console.log(posts)
-        res.render('posts', {posts: posts});
+        Users.findOne({email: req.session.user.email})
+        .then(user => {
+            res.render('posts', {posts: posts, loggedInUser: user});
+        })
+        .catch(err => console.log(err))
     })
     .catch(err => console.log(err));
 })
@@ -40,7 +43,71 @@ router.post('/newpost', isAuthorized, isVerified, (req,res)=>{
         .catch(err => console.log(err))
     })
     .catch(err => console.log(err))
+})
 
+router.get('/like', isAuthorized, isVerified, (req,res) =>{
+    const {id,sender,senderpfp,receiver} = req.query
+    Posts.findById(id)
+    .then(doc => {
+        doc.likes++
+        doc.save()
+        .then(()=>{
+            Users.findOne({username: receiver})
+            .then(receiver => {
+                notifs = receiver.notifs
+                notifs.push([
+                    sender,
+                    senderpfp,
+                    id
+                ])
+                receiver.markModified('notifs')
+                receiver.save()
+                .then(()=>{
+                    Users.findOne({email: req.session.user.email})
+                    .then(sender => {
+                        likedPosts = sender.likedPosts
+                        likedPosts.push(id)
+                        sender.markModified('likedPosts')
+                        sender.save()
+                        .then(()=>{
+                            res.json({
+                                data: true
+                            })
+                        })
+                        .catch(err => 
+                            res.json({
+                                data: false
+                            })
+                                )
+                    })
+                    .catch(err => 
+                        res.json({
+                            data: false
+                        })
+                            )
+                })
+                .catch(err =>
+                     res.json({
+                        data: false
+                        })
+                          )
+            }).catch(err => 
+                res.json({
+                    data: false
+                })
+                    )
+        })
+        .catch(err => 
+            res.json({
+                data: false
+            })
+            )
+    })
+    .catch(err => 
+        res.json({
+            data: false
+        })
+        )
 
 })
 

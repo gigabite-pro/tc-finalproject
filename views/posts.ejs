@@ -46,12 +46,22 @@
                         </div>
                     </div>
     
-                    <a href="" class="like">
-                        <span>
-                            <%=posts[i].likes%>
-                        </span>
-                        <i class="fa-regular fa-heart"></i>
-                    </a>
+                    <% if (loggedInUser.likedPosts.includes(posts[i]._id)) { %>
+                        <a aria-disabled="true">
+                            <span>
+                                <%=posts[i].likes%>
+                            </span> 
+                            <i class="fa-solid fa-heart" style="color: red;"></i>
+                        </a>
+                    <% }else{ %>
+                        <a class="like" data-id = <%=posts[i]._id%> data-sender = <%=loggedInUser.username%> data-senderpfp = <%=loggedInUser.pfp%> data-receiver = <%=posts[i].username%>>
+                            <span>
+                                <%=posts[i].likes%>
+                            </span> 
+                            <i class="fa-regular fa-heart" id="like-btn"></i>
+                        </a>
+                    <% } %>
+
                 </div>
                 <hr style="height: 1px; width:100%; background-color: black; border:none; margin: 0; padding: 0;">
                 <div class="lower" style="background-image: url('<%=posts[i].file%>');"></div>
@@ -62,5 +72,48 @@
             </div>
         <% } %>
     </div>
+    <script>
+
+        function likePost(post, id, sender, pfp, receiver){
+            fetch(`/posts/like?id=${id}&sender=${sender}&senderpfp=${pfp}&receiver=${receiver}`, {method : 'GET'})
+            .then(async resp=>{
+                resp = await resp.json()
+                if(resp.data == true){
+                    post.children[1].style.color = 'red';
+                    post.style.pointerEvents = 'none';
+                }else{
+                    post.children[1].classList.remove('fa-solid');
+                    post.children[1].classList.add('fa-regular');
+                    post.children[1].style.color = 'black';
+                    post.children[0].innerHTML = parseInt(post.children[0].innerHTML) - 1;
+                }
+            })
+            .catch(err => console.log(err))
+        }
+
+        function listen(){
+            const posts = document.querySelectorAll('.like');
+            posts.forEach(like => {
+                like.addEventListener('click', ()=>{
+                    const id = like.getAttribute('data-id')
+                    const sender = like.getAttribute('data-sender');
+                    const receiver = like.getAttribute('data-receiver');
+                    const senderpfp = like.getAttribute('data-senderpfp');
+
+                    // color change and increment
+                    like.children[1].classList.remove('fa-regular');
+                    like.children[1].classList.add('fa-solid');
+                    like.children[1].style.color = 'red';
+                    like.children[0].innerHTML = parseInt(like.children[0].innerHTML) + 1;
+
+                    likePost(like,id, sender, senderpfp, receiver)
+                })
+            })
+        }
+
+        window.onload = () => {
+            listen()
+        }
+    </script>
 </body>
 </html>

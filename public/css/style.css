@@ -341,7 +341,6 @@ nav .login{
     width: 2vw;
     height: 2vw;
     border-radius: 50%;
-    background-image: url('https://github.com/gigabite-pro.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -359,7 +358,6 @@ nav .login{
 .liked-img{
     width: 3vw;
     height: 4vw;
-    background-image: url('https://firebasestorage.googleapis.com/v0/b/tulipsocials-5f038.appspot.com/o/Sat%20Jul%2016%202022%2020%3A10%3A27%20GMT%2B0530%20(India%20Standard%20Time)-Coding%20Bootcamp.png?alt=media&token=9c1a7584-52ba-4c6f-8d06-f2e2504116c4');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

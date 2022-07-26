@@ -5,6 +5,7 @@ const session = require('express-session');
 const authRoute = require('./routes/auth');
 const postRoute = require('./routes/posts');
 const profileRoute = require('./routes/profile');
+const notifRoute = require('./routes/notifs');
 require('dotenv').config();
 
 app.use(express.static(__dirname + '/public'));
@@ -33,6 +34,7 @@ mongoose.connect(process.env.DB_URI,{
 app.use('/auth', authRoute);
 app.use('/posts', postRoute);
 app.use('/profile', profileRoute);
+app.use('/notifs', notifRoute);
 
 app.get('/', (req, res)=>{
     res.render('index');
